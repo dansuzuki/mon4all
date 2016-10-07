@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>me.dan</groupId>
+	<artifactId>mon4all</artifactId>
+  <name>Monitoring For All</name>
+	<version>0.1</version>
+
+<!--
+	<repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>talino-libs-release</id>
+      <name>libs-release</name>
+      <url>http://10.201.100.129:8081/artifactory/libs-release</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>talino-libs-snapshots</id>
+      <name>libs-snapshot</name>
+      <url>http://10.201.100.129:8081/artifactory/libs-snapshot</url>
+    </repository>
+	</repositories>
+-->
+	<dependencies>
+
+		<!-- finagle -->
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-core_2.10</artifactId>
+			<version>6.35.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>finagle-http_2.10</artifactId>
+			<version>6.35.0</version>
+		</dependency>
+
+		<!-- twitter server -->
+		<dependency>
+  		<groupId>com.twitter</groupId>
+  		<artifactId>twitter-server_2.10</artifactId>
+  		<version>1.20.0</version>
+		</dependency>
+
+    <!-- derby -->
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.12.1.1</version>
+    </dependency>
+
+    <!-- derby client -->
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyclient</artifactId>
+        <version>10.12.1.1</version>
+    </dependency>
+
+    <!-- json needs -->
+		<dependency>
+			<groupId>org.json4s</groupId>
+			<artifactId>json4s-native_2.10</artifactId>
+			<version>3.2.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json4s</groupId>
+			<artifactId>json4s-jackson_2.10</artifactId>
+			<version>3.2.10</version>
+		</dependency>
+
+
+    <!-- joda stuffs -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.joda</groupId>
+			<artifactId>joda-convert</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<!-- <sourceDirectory>src/main/scala</sourceDirectory> -->
+		<plugins>
+			<!-- scala -->
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<configuration>
+					<recompileMode>incremental</recompileMode>
+					<!-- for shapeless -->
+					<compilerPlugins>
+            <!--
+  					<compilerPlugin>
+    						<groupId>org.scala-lang.plugins</groupId>
+    						<artifactId>macro-paradise_2.10.4-SNAPSHOT</artifactId>
+    						<version>2.0.0-SNAPSHOT</version>
+  					</compilerPlugin>
+          -->
+					</compilerPlugins>
+				</configuration>
+				<executions>
+					<execution>
+						<id>scala-compile-first</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>add-source</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>scala-test-compile</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- set to java 1.7 as default instead of 1.5 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<!-- assembly -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- avro -->
+      <!--
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>1.7.7</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
+							<outputDirectory>${project.basedir}/target/generated-sources</outputDirectory>
+							<imports>
+							</imports>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+    -->
+			<!--  avro eclipse -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.basedir}/target/generated-sources</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<!-- To define the plugin version in your parent POM -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>net.alchim31.maven</groupId>
+					<artifactId>scala-maven-plugin</artifactId>
+					<version>3.2.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<properties>
+		<avro.version>1.7.7</avro.version>
+		<parquet.version>1.6.0</parquet.version>
+		<spark.version>1.4.1</spark.version>
+		<confluent.version>2.0.0</confluent.version>
+    <kafka.version>0.9.0.1</kafka.version>
+	</properties>
+</project>
