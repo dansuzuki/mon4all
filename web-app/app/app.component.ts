@@ -1,22 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-
-export class TickJob {
-  id: number;
-  name: string;
-}
-
-
-const TICKJOBS: TickJob[] =  [
-  { id: 1, name: 'FA Purchase Score BT' },
-  { id: 2, name: 'Sim Birth BT' },
-  { id: 3, name: 'FA Daily Recomute' },
-  { id: 10, name: 'Cash Credit Daily' }
-];
-
+import { TickJob } from './tickjob';
+import { TickJobService } from './tick-job.service';
 
 @Component({
-  selector: 'my-app',
+  selector: 'main-stage',
   template: `
     <h1>Dashboard</h1>
     <h2>Jobs</h2>
@@ -28,15 +16,8 @@ const TICKJOBS: TickJob[] =  [
         <span class="badge">{{tickJob.id}}</span> {{tickJob.name}}
       </li>
     </ul>
-    <div *ngIf="selectedTickJob">
-      <h2>{{selectedTickJob.name}} details</h2>
-      <div>
-        <label>id:</label>{{selectedTickJob.id}}
-      </div>
-      <div>
-        <label>name: </label><input [(ngModel)]="selectedTickJob.name" placeHolder="job name"/>
-      </div>
-    </div>
+    <tick-job-detail [tickJob] = "selectedTickJob">
+    </tick-job-detail>
     `,
     styles: [`
     .selected {
@@ -86,13 +67,24 @@ const TICKJOBS: TickJob[] =  [
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
-  `]
+  `],
+  providers: [TickJobService]
 
 })
 export class AppComponent {
   selectedTickJob: TickJob;
+  tickJobs: TickJob[];
 
-  tickJobs = TICKJOBS;
+
+  constructor(private tickJobService: TickJobService) { }
+
+  getTickJobs(): void {
+    this.tickJobService.getTickJobs().then(tickJobs => this.tickJobs = tickJobs);
+  }
+
+  ngOnInit(): void {
+    this.getTickJobs();
+  }
 
   onSelect(tickJob: TickJob): void {
     this.selectedTickJob = tickJob;
