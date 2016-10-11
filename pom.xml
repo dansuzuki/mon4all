@@ -7,24 +7,14 @@
   <name>Monitoring For All</name>
 	<version>0.1</version>
 
-<!--
+
 	<repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>talino-libs-release</id>
-      <name>libs-release</name>
-      <url>http://10.201.100.129:8081/artifactory/libs-release</url>
-    </repository>
-    <repository>
-      <snapshots />
-      <id>talino-libs-snapshots</id>
-      <name>libs-snapshot</name>
-      <url>http://10.201.100.129:8081/artifactory/libs-snapshot</url>
-    </repository>
+		<repository>
+			<id>maven-twitter</id>
+			<url>http://maven.twttr.com</url>
+		</repository>
 	</repositories>
--->
+
 	<dependencies>
 
 		<!-- finagle -->
@@ -169,28 +159,6 @@
 				</executions>
 			</plugin>
 
-			<!-- avro -->
-      <!--
-			<plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>1.7.7</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>schema</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-							<outputDirectory>${project.basedir}/target/generated-sources</outputDirectory>
-							<imports>
-							</imports>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-    -->
 			<!--  avro eclipse -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -218,6 +186,11 @@
 					<groupId>net.alchim31.maven</groupId>
 					<artifactId>scala-maven-plugin</artifactId>
 					<version>3.2.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.12</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
