@@ -1,6 +1,11 @@
-import { Component, Input } from '@angular/core';
+// Keep the Input import for now, we'll remove it later:
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params }   from '@angular/router';
+import { Location }                 from '@angular/common';
 
-import { TickJob } from './tickjob';
+import { TickJobService } from './tick-job.service';
+
+import { TickJob } from './tick-job'
 
 @Component({
   selector: 'tick-job-detail',
@@ -14,7 +19,24 @@ import { TickJob } from './tickjob';
   </div>
   `
 })
-export class TickJobDetailComponent {
+export class TickJobDetailComponent implements OnInit {
   @Input()
   tickJob: TickJob;
+
+  constructor(
+    private tickJobService: TickJobService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) { }
+
+  ngOnInit(): void {
+    this.route.params.forEach(
+      (params: Params) => {
+          let id = +params['id'];
+          this.tickJobService
+            .getTickJob(id)
+            .then(tickJob => this.tickJob = tickJob);
+      }
+    );
+  }
 }

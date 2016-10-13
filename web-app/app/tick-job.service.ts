@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TickJob } from './tickjob';
+import { TickJob } from './tick-job';
 
 const TICKJOBS: TickJob[] =  [
   { id: 1, name: 'FA Purchase Score BT' },
@@ -14,5 +14,9 @@ const TICKJOBS: TickJob[] =  [
 export class TickJobService {
   getTickJobs(): Promise<TickJob[]>  {
     return Promise.resolve(TICKJOBS);
+  }
+
+  getTickJob(id: number): Promise<TickJob> {
+    return Promise.resolve(TICKJOBS.find(tickJob => tick.Job.id === id));
   }
 }
