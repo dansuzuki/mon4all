@@ -42,6 +42,7 @@ object Application extends TwitterServer {
   val services =
     HttpRouter.byRequest { request =>
       (request.method, Path(request.path)) match {
+        case Method.Get -> ticks => TickServices.getTickJobs
         case Method.Post -> ticks / jobName => TickServices.newOrResetJob(jobName)
         case Method.Get -> ticks / jobName => TickServices.getJob(jobName)
         case Method.Delete -> ticks / jobName => TickServices.deleteJob(jobName)

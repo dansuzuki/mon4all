@@ -16,16 +16,7 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
 object TickServices {
-
-  object service {
-    def apply(func: http.Request => http.Response) = new Service[Request, Response] {
-      def apply(req: http.Request): Future[http.Response] = {
-        Future value(func(req))
-      }
-    }
-  }
-
-
+  import Helpers._
   /**
    * POST /mon4all/api/ticks/<job name>
    * Content: the list of items to monitor with status as the initial status
@@ -87,5 +78,30 @@ object TickServices {
   def getJobItem(jobName: String, itemName: String) = service {
     req => http.Response(req.version, http.Status.Ok)
   }
+
+
+
+  case class TickJob(id: Long, name: String) {
+    def toJValue = (("id" -> id) ~ ("name" -> name))
+  }
+
+  val tickJobs = compact(
+    List(TickJob(1, "FA Purchase Score BT"),
+      TickJob(2, "Sim Birth BT"),
+      TickJob(3, "FA Daily Recompute"),
+      TickJob(10, "Cash Credit Daily"),
+      TickJob(20, "Usage Profiling"),
+      TickJob(30, "Some Spark Shell"),
+      TickJob(40, "PySpark Notebook"))
+      .map(_.toJValue))
+
+  def getTickJobs = service {
+    req => {
+      val resp = http.Response(req.version, http.Status.Ok)
+      resp.setContentString(tickJobs)
+      resp
+    }
+  }
+
 
 }
