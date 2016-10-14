@@ -1,2 +1,2 @@
 # mon4all
-A generic monitoring dashboard
+An ad hoc monitoring tool.
