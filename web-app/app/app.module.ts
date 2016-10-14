@@ -10,11 +10,12 @@ import { HttpModule }    from '@angular/http';
 
 
 /** app specifics */
-import { AppComponent }           from './app.component';
-import { DashboardComponent }     from './dashboard.component';
+import { AppRoutingModule }        from './app-routing.module';
+import { AppComponent }            from './app.component';
+import { DashboardComponent }      from './dashboard.component';
 import { TickJobsComponent }       from './tick-jobs.component';
-import { TickJobDetailComponent } from './tick-job-detail.component';
-import { TickJobService }         from './tick-job.service';
+import { TickJobDetailComponent }  from './tick-job-detail.component';
+import { TickJobService }          from './tick-job.service';
 
 
 @NgModule({
@@ -22,21 +23,7 @@ import { TickJobService }         from './tick-job.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot([
-        {
-          path: 'tick-jobs',
-          component: TickJobsComponent
-        },
-        {
-          path: 'dashboard',
-          component: DashboardComponent
-        },
-        {
-          path: '',
-          redirectTo: '/dashboard',
-          pathMatch: 'full'
-        }
-      ]),
+    AppRoutingModule
     //NgbModule.forRoot()
   ],
   declarations: [

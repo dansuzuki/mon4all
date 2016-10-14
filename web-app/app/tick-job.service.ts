@@ -15,7 +15,7 @@ const TICKJOBS: TickJob[] =  [
 
 @Injectable()
 export class TickJobService {
-  private tickJobsURL = 'http://localhost:8080/mon4all/api/ticks'
+  private tickJobsURL = 'http://192.168.56.101:8080/mon4all/api/ticks'
 
   constructor(private http: Http) { }
 

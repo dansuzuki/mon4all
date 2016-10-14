@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <ul class="jobs">
+        <li *ngFor="let tickJob of tickJobs"
+          [class.selected] = "tickJob === selectedTickJob"
+          (click) = "onSelect(tickJob)"
+          >
+          <span class="badge">{{tickJob.id}}</span> {{tickJob.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <tick-job-detail [tickJob] = "selectedTickJob">
+      </tick-job-detail>
+    </div>
+  </div>
+</div>
